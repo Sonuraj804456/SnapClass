@@ -38,9 +38,17 @@ def get_all_students():
     return response.data
 
 def create_student(new_name, face_embedding=None, voice_embedding=None):
-    data = {'name': new_name, 'face_embedding':face_embedding, "voice_embedding": voice_embedding}
-    response = supabase.table('students').insert(data).execute()
-    return response.data
+    data = {'name': new_name, 'face_embedding': face_embedding}
+    if voice_embedding is not None:
+        data['voice_embedding'] = voice_embedding
+
+    try:
+        response = supabase.table('students').insert(data).execute()
+        return response.data
+    except Exception as e:
+        import streamlit as st
+        st.error(f"Database error registering student: {e}")
+        return None
 
 
 def create_subject(subject_code, name, section, teacher_id):

@@ -178,6 +178,8 @@ def student_screen():
                                 st.toast(f'Profile Created! Hi {new_name}!')
                                 time.sleep(1)
                                 st.rerun()
+                            else:
+                                st.error('Failed to create student profile. Please review the error above.')
                         else:
                             st.error('Couldnt capture your facial features for registration')
 
